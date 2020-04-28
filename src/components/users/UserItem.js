@@ -1,26 +1,9 @@
 import React, {Component} from 'react';
 
 export class UserItem extends Component {
-	state = {
-		id: 'id',
-		login: 'mojombo',
-		avatar_url: 'https://avatars0.githubusercontent.com/u/1?v=4',
-		html_url: 'https://github.com/mojombo'
-	};
-	// constructor() {
-	// 	super();
-	// 	this.state = {
-	// 		id: 'id',
-	// 		login: 'mojombo',
-	// 		avatar_url: 'https://avatars0.githubusercontent.com/u/1?v=4',
-	// 		html_url: 'https://github.com/mojombo'
-	// 	};
-	// }
 	render() {
-		//destructuring to pull out the values from the state
-		//in order to get values without this.state
-		//instead this.state.avatar_url => just avatar_url
-		const {id, login, avatar_url, html_url} = this.state;
+		//change to pulling from local comp state to pulling from this.props
+		const {id, login, avatar_url, html_url} = this.props.user;
 		return (
 			<div className='card text-center'>
 				<img src={avatar_url} alt='' className='round-img' style={{width: '60px'}} />
