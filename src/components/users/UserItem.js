@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const UserItem = ({user: {id, login, avatar_url, html_url}}) => {
 	//in functional component getting rid of "this",an passing "props" as an argument in the arrow func
@@ -17,6 +18,10 @@ const UserItem = ({user: {id, login, avatar_url, html_url}}) => {
 			</div>
 		</div>
 	);
+};
+
+UserItem.propTypes = {
+	user: PropTypes.object.isRequired
 };
 
 export default UserItem;
