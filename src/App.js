@@ -13,17 +13,17 @@ class App extends React.Component {
 	};
 
 	// make a request to the github api
-	async componentDidMount() {
-		this.setState({loading: true});
+	// async componentDidMount() {
+	// 	this.setState({loading: true});
 
-		const res = await axios.get(
-			`https://api.github.com/users?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process
-				.env.REACT_APP_GITHUB_CLIENT_SECRET}`
-		);
+	// 	const res = await axios.get(
+	// 		`https://api.github.com/users?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process
+	// 			.env.REACT_APP_GITHUB_CLIENT_SECRET}`
+	// 	);
 
-		//reset the state to res.data
-		this.setState({users: res.data, loading: false});
-	}
+	// 	//reset the state to res.data
+	// 	this.setState({users: res.data, loading: false});
+	// }
 
 	//search users
 	searchUsers = async (text) => {
@@ -36,6 +36,8 @@ class App extends React.Component {
 
 		this.setState({users: res.data.items, loading: false});
 	};
+	//clear users from state
+	clearUsers = () => this.setState({users: [], loading: false});
 
 	render() {
 		return (
@@ -44,7 +46,11 @@ class App extends React.Component {
 
 				<div className='container'>
 					{/* sending props from  down to up */}
-					<Search searchUsers={this.searchUsers} />
+					<Search
+						searchUsers={this.searchUsers}
+						clearUsers={this.clearUsers}
+						showClear={this.state.users.length > 0 ? true : false}
+					/>
 					{/* //passing the state with props */}
 					<Users loading={this.state.loading} users={this.state.users} />
 				</div>
