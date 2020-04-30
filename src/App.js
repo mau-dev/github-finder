@@ -12,7 +12,7 @@ class App extends React.Component {
 		loading: false
 	};
 
-	//make a request to the github api
+	// make a request to the github api
 	async componentDidMount() {
 		this.setState({loading: true});
 
@@ -25,14 +25,27 @@ class App extends React.Component {
 		this.setState({users: res.data, loading: false});
 	}
 
+	//search users
+	searchUsers = async (text) => {
+		this.setState({loading: true});
+		//setting the endpoint for the search
+		const res = await axios.get(
+			`https://api.github.com/search/users?q=${text}&client_id=${process.env
+				.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
+		);
+
+		this.setState({users: res.data.items, loading: false});
+	};
+
 	render() {
 		return (
 			<div className='App'>
 				<Navbar title='Github Finder' icon='fab fa-github' />
 
 				<div className='container'>
+					{/* sending props from  down to up */}
+					<Search searchUsers={this.searchUsers} />
 					{/* //passing the state with props */}
-					<Search />
 					<Users loading={this.state.loading} users={this.state.users} />
 				</div>
 			</div>

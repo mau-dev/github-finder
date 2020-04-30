@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 
 export class Search extends Component {
 	//attach state for the input
@@ -6,9 +7,17 @@ export class Search extends Component {
 		text: ''
 	};
 
+	static propTypes = {
+		searchUsers: PropTypes.func.isRequired
+	};
+
 	onSubmit = (e) => {
 		e.preventDefault();
-		console.log(this.state.text);
+		// passing the text state in the search func
+		this.props.searchUsers(this.state.text);
+		//clearing the form after
+		this.setState({text: ''});
+		// console.log(this.state.text);
 	};
 
 	onChange = (e) => {
