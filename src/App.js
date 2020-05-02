@@ -16,7 +16,8 @@ class App extends React.Component {
 		users: [],
 		user: {},
 		loading: false,
-		alert: null
+		alert: null,
+		repos: []
 	};
 
 	// make a request to the github api
@@ -54,6 +55,18 @@ getUser = async (username) => {
 this.setState({user: res.data, loading: false});
 }
 
+//get users repos
+getUserRepos = async (username) => {
+	this.setState({ loading: true });
+	const res = await axios.get(
+	`https://api.github.com/users/${username}/repos?per_page=5&sort=created:asc&client_id=${process.env
+	.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
+);
+
+this.setState({repos: res.data, loading: false});
+}
+
+
 
 
 	//clear users from state
@@ -65,7 +78,7 @@ this.setState({user: res.data, loading: false});
 		setTimeout(() => this.setState({alert: null}), 3000);
 	};
 	render() {
-		const {users, user, loading} = this.state;
+		const {users, user, loading, repos} = this.state;
 		return (
 			<Router >
 			<div className='App'>
@@ -91,7 +104,7 @@ this.setState({user: res.data, loading: false});
 						<Route exact path='/about' component={About} />
 						{/* passing the props and the state for this route */}
 						<Route exact path='/user/:login' render={props => (
-							<User {...props} getUser={this.getUser} user={user} loading={loading} />
+							<User {...props} getUser={this.getUser} getUserRepos={this.getUserRepos} repos={repos} user={user} loading={loading} />
 						)} />
 					</Switch>
 					
